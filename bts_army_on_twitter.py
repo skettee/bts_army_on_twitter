@@ -63,11 +63,16 @@ else:
         #print('url: ', href_url)
 
         # 포스트를 올린 날짜를 수집한다.
-        #data_time = post.find('span', class_="_timestamp js-short-timestamp js-relative-timestamp")['data-time']
-        post_time = post.find('a', class_="tweet-timestamp")['title'].replace('오전', 'AM').replace('오후', 'PM')
-        #post_time = datetime.strptime(posttime, '%Y-%m-%d %H:%M:%S')
+        # LANGUAGE UNDEFINED CASE
+        post_time = post.find('a', class_="tweet-timestamp")['title']
+        # 8:01 PM - 30 Mar 2019
+        moa_createdAt = datetime.strptime(post_time, '%I:%M %p - %d %b %Y')
+
+        # LANGUAGE KOREA CASE
+        #post_time = post.find('a', class_="tweet-timestamp")['title'].replace('오전', 'AM').replace('오후', 'PM')
         # AM 2:27 - 2019년 3월 11일
-        moa_createdAt = datetime.strptime(post_time, '%p %I:%M - %Y년 %m월 %d일')
+        #moa_createdAt = datetime.strptime(post_time, '%p %I:%M - %Y년 %m월 %d일')
+
         # UTC 값으로 변경하기 위해서 9시간을 뺀다. 
         # datetime.timedelta([days,] [seconds,] [microseconds,] [milliseconds,] [minutes,] [hours,] [weeks])
         moa_createdAt = moa_createdAt - timedelta(hours=9)
