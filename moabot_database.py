@@ -8,6 +8,17 @@ class Dbase():
         # Create database and save cursor or reference
         self.db_name = db_name + '.db'
         self.table_name = bot_id
+        self.data = {
+            'title': '',
+            'desc': '',
+            'url': '',
+            'image': '',
+            'siteName': '',
+            'features': '',
+            'createdBy': '',
+            'createdAt': datetime.now(),
+            'timeStamp': datetime.now()
+        }
 
         try:
             self.conn = sqlite3.connect(self.db_name)
@@ -22,7 +33,8 @@ class Dbase():
                  url        TEXT NOT NULL,
                  image      TEXT DEFAULT "",
                  siteName   TEXT NOT NULL,
-                 createdBy  VARCHAR(255) DEFAULT "",
+                 features   TEXT DEFAULT "",
+                 createdBy  TEXT NOT NULL,
                  createdAt  TEXT NOT NULL,
                  timeStamp  TEXT NOT NULL);'''.format(self.table_name)
             
@@ -33,23 +45,34 @@ class Dbase():
     def insertTable(self, data):
         # 데이터 타입을 확인한다.
         assert type(data['title']) == str, 'title: type error'
-        assert type(data['desc']) == str, 'desc: type error'
         assert type(data['url']) == str, 'url: type error'
-        assert type(data['image']) == str, 'image: type error'
         assert type(data['siteName']) == str, 'siteName: type error'
         assert type(data['createdBy']) == str, 'createdBy: type error'
         assert type(data['createdAt']) == datetime, 'createdAt: type error'
         assert type(data['timeStamp']) == datetime, 'timeStamp: type error'
+        # set data
+        self.data['title'] = data['title']
+        self.data['desc'] = data['desc']
+        self.data['url'] = data['url']
+        self.data['siteName'] = data['siteName']
+        self.data['createdBy'] = data['createdBy']
+        self.data['timeStamp'] = data['timeStamp']
+        if data.get('desc'):
+            self.data['desc'] = data['desc']
+        if data.get('image'):
+            self.data['image'] = data['image']
+        if data.get('features'):
+            self.data['features'] = data['features']
         # Insert data into Table
         # execute or push
         with self.conn:
             insert_table = """INSERT INTO {} 
-                (title, desc, url, image, siteName, createdBy, createdAt, timeStamp) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)""".format(self.table_name)
+                (title, desc, url, image, siteName, features, createdBy, createdAt, timeStamp) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""".format(self.table_name)
             
-            table_data = (data['title'], data['desc'], data['url'], 
-                data['image'], data['siteName'], data['createdBy'], 
-                data['createdAt'], data['timeStamp'])
+            table_data = (self.data['title'], self.data['desc'], self.data['url'], 
+                self.data['image'], self.data['siteName'], self.data['features'],
+                data['createdBy'], data['createdAt'], data['timeStamp'])
             
             curs = self.conn.cursor()
             curs.execute(insert_table, table_data)

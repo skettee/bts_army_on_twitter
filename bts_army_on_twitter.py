@@ -57,7 +57,6 @@ else:
         #print('createdBy: ', moa_createBy)
         
         # 포스트의 주소를 수집한다.
-        #href = post.find('a', class_="tweet-timestamp js-permalink js-nav js-tooltip")['href']
         href = post.find('a', class_="tweet-timestamp")['href']
         href_url = 'https://twitter.com' + href
         #print('url: ', href_url)
@@ -73,9 +72,9 @@ else:
         # AM 2:27 - 2019년 3월 11일
         #moa_createdAt = datetime.strptime(post_time, '%p %I:%M - %Y년 %m월 %d일')
 
-        # UTC 값으로 변경하기 위해서 9시간을 뺀다. 
+        # UTC (+7)
         # datetime.timedelta([days,] [seconds,] [microseconds,] [milliseconds,] [minutes,] [hours,] [weeks])
-        moa_createdAt = moa_createdAt - timedelta(hours=9)
+        moa_createdAt = moa_createdAt + timedelta(hours=7)
         #print('createdAt: ', post_time)
 
         # 포스트의 주소로 이동한다.
@@ -123,37 +122,42 @@ else:
             
             # 현재 날짜와 시간을 수집한다.
             moa_timeStamp = datetime.now()
+
+            # 오늘 발행된 포스트만 선택한다.
+            delta = moa_timeStamp - moa_createdAt + timedelta(hours=9)
+            if delta.days <=0:
+                print('time delta: ', delta.days)
             
-            # 데이터베이스에 있는 포스트와 중복되는지를 확인한다.
-            if my_db.isNewItem('title', moa_title):
-                # 데이터 타입을 확인한다.
-                assert type(moa_title) == str, 'title: type error'
-                assert type(moa_desc) == str, 'desc: type error'
-                assert type(moa_url) == str, 'url: type error'
-                assert type(moa_image) == str, 'image: type error'
-                assert type(moa_site_name) == str, 'siteName: type error'
-                assert type(moa_createBy) == str, 'createBy: type error'
-                assert type(moa_createdAt) == datetime, 'createdAt: type error'
-                assert type(moa_timeStamp) == datetime, 'timeStamp: type error'
-                
-                # JSON형식으로 수집한 데이터를 변환한다.
-                db_data = { 'title': moa_title, 
-                    'desc': moa_desc,
-                    'url': moa_url,
-                    'image': moa_image,
-                    'siteName': moa_site_name,
-                    'createdBy': moa_createBy,
-                    'createdAt': moa_createdAt,
-                    'timeStamp': moa_timeStamp
-                }
+                # 데이터베이스에 있는 포스트와 중복되는지를 확인한다.
+                if my_db.isNewItem('title', moa_title):
+                    # 데이터 타입을 확인한다.
+                    assert type(moa_title) == str, 'title: type error'
+                    assert type(moa_desc) == str, 'desc: type error'
+                    assert type(moa_url) == str, 'url: type error'
+                    assert type(moa_image) == str, 'image: type error'
+                    assert type(moa_site_name) == str, 'siteName: type error'
+                    assert type(moa_createBy) == str, 'createBy: type error'
+                    assert type(moa_createdAt) == datetime, 'createdAt: type error'
+                    assert type(moa_timeStamp) == datetime, 'timeStamp: type error'
+                    
+                    # JSON형식으로 수집한 데이터를 변환한다.
+                    db_data = { 'title': moa_title, 
+                        'desc': moa_desc,
+                        'url': moa_url,
+                        'image': moa_image,
+                        'siteName': moa_site_name,
+                        'createdBy': moa_createBy,
+                        'createdAt': moa_createdAt,
+                        'timeStamp': moa_timeStamp
+                    }
 
-                # 디버그를 위해서 수집한 데이터를 출력한다.
-                temp_data = db_data.copy()
-                temp_data['desc'] = temp_data['desc'][:20] + '...'
-                print(json.dumps(temp_data, indent=4, ensure_ascii=False, default=str))
+                    # 디버그를 위해서 수집한 데이터를 출력한다.
+                    temp_data = db_data.copy()
+                    temp_data['desc'] = temp_data['desc'][:20] + '...'
+                    print(json.dumps(temp_data, indent=4, ensure_ascii=False, default=str))
 
-                # 수집한 데이터를 데이터베이스에 전송한다.
-                my_db.insertTable(db_data)
+                    # 수집한 데이터를 데이터베이스에 전송한다.
+                    my_db.insertTable(db_data)
 
     # 데이터 베이스를 닫는다.
     my_db.close()
