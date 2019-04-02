@@ -52,10 +52,10 @@ class Dbase():
         assert type(data['timeStamp']) == datetime, 'timeStamp: type error'
         # set data
         self.data['title'] = data['title']
-        self.data['desc'] = data['desc']
         self.data['url'] = data['url']
         self.data['siteName'] = data['siteName']
         self.data['createdBy'] = data['createdBy']
+        self.data['createdAt'] = data['createdAt']
         self.data['timeStamp'] = data['timeStamp']
         if data.get('desc'):
             self.data['desc'] = data['desc']
