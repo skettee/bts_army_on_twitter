@@ -126,7 +126,7 @@ else:
             # 오늘 발행된 포스트만 선택한다.
             delta = moa_timeStamp - moa_createdAt + timedelta(hours=9)
             if delta.days <=0:
-                print('time delta: ', delta.days)
+                #print('time delta: ', delta.days)
             
                 # 데이터베이스에 있는 포스트와 중복되는지를 확인한다.
                 if my_db.isNewItem('title', moa_title):
