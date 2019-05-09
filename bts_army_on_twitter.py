@@ -124,8 +124,8 @@ else:
                 if moa_site_name:
                     moa_site_name = moa_site_name['content']
                 
-                # 포스트의 주소를 가공한다.
-                moa_url = 'https://mobile.twitter.com' + href
+                # 포스트의 주소를 수집한다.
+                moa_url = href_url
                 
                 # 현재 날짜와 시간을 수집한다.
                 moa_timeStamp = datetime.now()
