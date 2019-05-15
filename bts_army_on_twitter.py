@@ -18,39 +18,39 @@
 # 
 # - 터미널 실행
 #
-#   - (윈도우즈 🖼) Windows PowerShell을 실행한다.
+#   - 🖼 Windows PowerShell을 실행한다.
 #
-#   - (맥 🍎) Terminal을 실행한다.
+#   - 🍎 Terminal을 실행한다.
 # 
 # - 작업할 폴더를 생성한다.
 # 
-#   ```
-#   mkdir MyWork
-#   ```
+# ```
+# mkdir MyWork
+# ```
 # 
 # - 작업할 폴더로 이동한다.
 #  
-#   ```
-#   cd MyWork
-#   ```
+# ```
+# cd MyWork
+# ```
 # 
 # - 깃 클론 (Git Clone)을 수행한다.
 # 
-#   ```
-#   git clone https://github.com/skettee/bts_army_on_twitter.git
-#   ```
+# ```
+# git clone https://github.com/skettee/bts_army_on_twitter.git
+# ```
 # 
 # - 복사한 코드의 폴더로 이동한다.
 # 
-#   ```
-#   cd bts_army_on_twitter
-#   ```
+# ```
+# cd bts_army_on_twitter
+# ```
 # 
 # - VSCode를 실행한다.
 # 
-#   ```
-#   code .
-#   ```
+# ```
+# code .
+# ```
 # 
 # - 왼쪽 EXPLORE에서 `bas_army_on_twitter.py`를 선택한다.
 # 
@@ -83,39 +83,39 @@
 # 
 # - 저장된 HTML파일 (twitter_source.html)을 열어 봅니다. 여기서 우리는 "포스트의 리스트"를 표현하는 구간을 찾을 것입니다. **포스트**는 제목, 내용, 이미지, 작성자, 작성 날짜 및 페이지 위치(URL)를 가지고 있는 하나의 문서(여기서는 트윗)를 나타내는 용어로 사용합니다.
 # 
-#   ```
-#   +-------------+ +-> <div class="content">
-#   |   Post 1    
-#   |  (Tweet 1)   
-#   +-------------+ +-> </div>
+# ```
+# +------------+ +-> <div class="content">
+# |   Post 1    
+# |  (Tweet 1)   
+# +------------+ +-> </div>
 # 
-#   +-------------+ +-> <div class="content">
-#   |   Post 2    
-#   |  (Tweet 2)  
-#   +-------------+ +-> </div>
+# +------------+ +-> <div class="content">
+# |   Post 2    
+# |  (Tweet 2)  
+# +------------+ +-> </div>
 # 
-#   +-------------+ +-> <div class="content">
-#   |   Post3     
-#   |  (Tweet 3)
-#   +-------------+ +-> </div>
-#   ```
+# +------------+ +-> <div class="content">
+# |   Post3     
+# |  (Tweet 3)
+# +------------+ +-> </div>
+# ```
 # 
 # - 각각의 포스트는 `<div class="content">` 에서 시작 되고 `</div>`로 끝난다는 것을 알아내는 것이 중요합니다. 이것은 사이트마다 다르기 때문에 이것을 찾아내는 것은 약간의 경험이 필요합니다.
 # 
 # - 발견한 포스트에서 아래와 같이 작성자, 올린 시간 및 포스트 위치(URL)을 찾습니다.
 # 
-#   ```
-#   +-------------+
-#   |   Post 1    
-#   +-------------+
-#   |  createdBy  +-> <strong class="fullname...> </strong>
-#   |             
-#   |  post URL   +-> <a class="tweet-timestamp... href=...>
-#   |             
-#   |  createdAt  +-> <a class="tweet-timestamp... title=...>
-#   |             
-#   +-------------+
-#   ```
+# ```
+# +-------------+
+# |   Post 1    
+# +-------------+
+# |  createdBy  +-> <strong class="fullname...> </strong>
+# |             
+# |  post URL   +-> <a class="tweet-timestamp... href=...>
+# |             
+# |  createdAt  +-> <a class="tweet-timestamp... title=...>
+# |             
+# +-------------+
+# ```
 #  
 # - 나머지 데이터를 수집하기 위해서 포스트 HTML로 이동합니다.
 # 
@@ -135,17 +135,17 @@
 # 
 # - 아래와 같은 메타 태그를 사용합니다.
 # 
-#   ```html
-#   <head>
-#   ...
-#     <meta content="..." property="og:url"/>
-#     <meta content="..." property="og:title"/>
-#     <meta content="..." property="og:image"/>
-#     <meta content="..." property="og:description"/>
-#     <meta content="..." property="og:site_name"/>
-#   ...
-#   </head>
-#   ```
+# ```html
+# <head>
+# ...
+#   <meta content="..." property="og:url"/>
+#   <meta content="..." property="og:title"/>
+#   <meta content="..." property="og:image"/>
+#   <meta content="..." property="og:description"/>
+#   <meta content="..." property="og:site_name"/>
+# ...
+# </head>
+# ```
 # 
 # - 메타 태그에서 데이터를 수집합니다.
 # 
